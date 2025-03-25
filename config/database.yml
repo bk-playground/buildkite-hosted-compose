@@ -82,8 +82,8 @@ production:
   primary: &primary_production
     <<: *default
     database: buildkite_hosted_compose_production
-    username: buildkite_hosted_compose
-    password: <%= ENV["BUILDKITE_HOSTED_COMPOSE_DATABASE_PASSWORD"] %>
+    username: <%= ENV["PGUSER"] %>
+    password: <%= ENV["PGPASSWORD"] %>
   cache:
     <<: *primary_production
     database: buildkite_hosted_compose_production_cache

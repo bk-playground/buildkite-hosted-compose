@@ -1,0 +1,12 @@
+steps:
+  - name: "Build app image"
+    plugins:
+      - docker-compose#v5.6.0:
+          build: app
+          config: "docker-compose.ci.yml"
+#          push:
+#            - "app:packages.buildkite.com/bk-mark-wolfe/app-images/app-testing:testing"
+          retry:
+            automatic:
+              - limit: 2
+                exit_status: 17
