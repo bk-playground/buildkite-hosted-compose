@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "private": "true",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.15",
+    "tailwindcss": "^4.0.15"
+  },
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+  }
+}
