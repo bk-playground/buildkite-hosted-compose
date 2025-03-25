@@ -9,7 +9,7 @@ Buildkite hosted agents provides two features which enable this:
 * Docker builder is configured in each agent container which results in improved build times, and reuse of the same container across multiple steps.
 * Container cache volume is mounted in each agent container which allows the cache to be shared across multiple steps, and subsequent builds.
 
-[Development Dockerfile](.Dockerfile.development) is used to build the development container. This Dockerfile is optimized for caching by ensuring that the dependencies are installed in a separate layer from the application code.
+[Development Dockerfile](Dockerfile.development) is used to build the development container. This Dockerfile is optimized for caching by ensuring that the dependencies are installed in a separate layer from the application code.
 [Buildkite pipeline](.buildkite/pipeline.yaml) is configured to use docker compose to build the development container in the first step, and then use the same container in subsequent steps.
 
 ## How to use
