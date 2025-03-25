@@ -1,5 +1,7 @@
 # buildkite-hosted-compose
 
+[![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
+
 This project illustrates how to use Docker Compose to build a rails app development container while ensuring this container can be cached and reused across multiple steps, and subsequent builds.
 
 ## How it works
