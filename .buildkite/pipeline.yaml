@@ -1,12 +1,22 @@
 steps:
   - name: "Build app image"
+    key: image_build
     plugins:
       - docker-compose#v5.6.0:
           build: app
           config: "docker-compose.ci.yml"
-#          push:
-#            - "app:packages.buildkite.com/bk-mark-wolfe/app-images/app-testing:testing"
           retry:
             automatic:
               - limit: 2
                 exit_status: 17
+  - name: ":rspec: run tests"
+    command: bin/ci-runtests
+    plugins:
+      - docker-compose#v5.6.0:
+          build: app
+          config: "docker-compose.ci.yml"
+          retry:
+            automatic:
+              - limit: 2
+                exit_status: 17
+    depends_on: image_build
