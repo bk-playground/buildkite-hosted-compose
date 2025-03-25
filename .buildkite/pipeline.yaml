@@ -9,6 +9,7 @@ steps:
             automatic:
               - limit: 2
                 exit_status: 17
+          propagate-environment: true
   - name: ":rspec: run tests"
     command: bin/ci-runtests
     plugins:
@@ -19,4 +20,5 @@ steps:
             automatic:
               - limit: 2
                 exit_status: 17
+          propagate-environment: true
     depends_on: image_build
