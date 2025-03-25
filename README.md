@@ -1,24 +1,30 @@
-# README
+# buildkite-hosted-compose
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project illustrates how to use Docker Compose to build a rails app development container while ensuring this container can be cached and reused across multiple steps, and subsequent builds.
 
-Things you may want to cover:
+## How it works
 
-* Ruby version
+Buildkite hosted agents provides two features which enable this:
 
-* System dependencies
+* Docker builder is configured in each agent container which results in improved build times, and reuse of the same container across multiple steps.
+* Container cache volume is mounted in each agent container which allows the cache to be shared across multiple steps, and subsequent builds.
 
-* Configuration
+[Development Dockerfile](.Dockerfile.development) is used to build the development container. This Dockerfile is optimized for caching by ensuring that the dependencies are installed in a separate layer from the application code.
+[Buildkite pipeline](.buildkite/pipeline.yaml) is configured to use docker compose to build the development container in the first step, and then use the same container in subsequent steps.
 
-* Database creation
+## How to use
 
-* Database initialization
+1. Setup a cluster and queue in buildkite which is configured to use hosted agents.
+2. Enable docker caching in the cluster settings.
+3. Clone this repository and push it to your github account.
+4. Create a new pipeline in buildkite and point it to the repository
+5. Add pipeline with a single command (see yaml below) to upload the pipeline yaml.
+6. Run the pipeline.
 
-* How to run the test suite
+```yaml
+steps:
+  - label: "Upload pipeline"
+    command: buildkite pipeline upload .buildkite/pipeline.yaml
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The first build will take longer as the development container is built. Subsequent builds will be faster as the container is cached and reused.
