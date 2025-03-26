@@ -29,7 +29,10 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 # Install packages needed to build gems as well as Node.js
-RUN apt-get update -qq && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/cache/debconf \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key -o /etc/apt/keyrings/nodesource.asc && \
     echo 'deb [signed-by=/etc/apt/keyrings/nodesource.asc] https://deb.nodesource.com/node_22.x nodistro main' | tee /etc/apt/sources.list.d/nodesource.list && \
