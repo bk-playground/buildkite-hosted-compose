@@ -39,12 +39,12 @@ RUN apt-get update -qq && \
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
+RUN --mount=type=cache,target=/root/.gem bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 COPY package.json *yarn* ./
-RUN yarn install
+RUN --mount=type=cache,id=yarn,target=/root/.cache/yarn YARN_CACHE_FOLDER=/root/.cache/yarn yarn install
 
 # Copy application code
 COPY . .
