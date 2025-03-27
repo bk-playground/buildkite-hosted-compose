@@ -40,7 +40,7 @@ steps:
     plugins:
       - ./.buildkite/plugins/packages-docker-login:
             org_slug: "$BUILDKITE_ORGANIZATION_SLUG"
-            registry_slug: "$BUILDKITE_PIPELINE_NAME" # this can be changed to the service name
+            registry_slug: "$BUILDKITE_PIPELINE_SLUG" # this can be changed to the service name
     command: .buildkite/scripts/ci-imagebuild
     key: prod_image_build
     depends_on: qa
