@@ -21,6 +21,7 @@ Buildkite hosted agents provides two features which enable this:
 3. Clone this repository and push it to your github account.
 4. Create a new pipeline in buildkite and point it to the repository
 5. Add pipeline with a single command (see yaml below) to upload the pipeline yaml.
+6. Create a package registry in your buildkite organisation with the same name as the pipeline.
 6. Run the pipeline.
 
 ```yaml
