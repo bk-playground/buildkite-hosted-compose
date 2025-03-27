@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -euo pipefail
+
+bk_packages_host="packages.buildkite.com/${BUILDKITE_PLUGIN_PACKAGES_DOCKER_LOGIN_ORG_SLUG}/${BUILDKITE_PLUGIN_PACKAGES_DOCKER_LOGIN_REGISTRY_SLUG}"
+
+echo "Logging into ${bk_packages_host}..."
+
+buildkite-agent oidc request-token \
+        --audience "https://${bk_packages_host}" \
+        --lifetime 300 \
+      | docker login "${bk_packages_host}" \
+        --username buildkite \
+        --password-stdin
