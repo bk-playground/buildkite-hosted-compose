@@ -1,0 +1,11 @@
+name: packages-docker-login
+description: Log into buildkite packages using OIDC
+author: https://github.com/wolfeidau
+requirements: []
+configuration:
+  properties:
+    org_slug:
+      type: string
+    registry_slug:
+      type: string
+  additionalProperties: false

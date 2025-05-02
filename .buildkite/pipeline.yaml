@@ -10,15 +10,37 @@ steps:
               - limit: 2
                 exit_status: 17
           propagate-environment: true
-  - name: ":rspec: run tests"
-    command: bin/ci-runtests
-    plugins:
-      - docker-compose#v5.6.0:
-          run: app
-          config: "docker-compose.ci.yml"
-          retry:
-            automatic:
-              - limit: 2
-                exit_status: 17
-          propagate-environment: true
+  - group: ':mag: QA'
+    id: qa
     depends_on: image_build
+    steps:
+    - name: ":rubocop: run rubocop"
+      command: bundle exec rubocop
+      plugins:
+        - docker-compose#v5.6.0:
+            run: app
+            config: "docker-compose.ci.yml"
+            retry:
+              automatic:
+                - limit: 2
+                  exit_status: 17
+            propagate-environment: true
+    - name: ":rspec: run tests"
+      command: .buildkite/scripts/ci-runtests
+      plugins:
+        - docker-compose#v5.6.0:
+            run: app
+            config: "docker-compose.ci.yml"
+            retry:
+              automatic:
+                - limit: 2
+                  exit_status: 17
+            propagate-environment: true
+  - name: ":ship: production app image"
+    plugins:
+      - ./.buildkite/plugins/packages-docker-login:
+            org_slug: "$BUILDKITE_ORGANIZATION_SLUG"
+            registry_slug: "$BUILDKITE_PIPELINE_SLUG" # this can be changed to the service name
+    command: .buildkite/scripts/ci-imagebuild
+    key: prod_image_build
+    depends_on: qa
