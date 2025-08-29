@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+bk_packages_host="packages.buildkite.com/${BUILDKITE_ORGANIZATION_SLUG}/${REGISTRY_SLUG}"
+
+echo "building image tag ${bk_packages_host}/${BUILDKITE_PIPELINE_SLUG}:${BUILDKITE_BUILD_NUMBER}"
+
+# Build the production Docker image for platforms linux/amd64 and linux/arm64
+docker buildx build --platform linux/amd64,linux/arm64 \
+  --push -t ${bk_packages_host}/${BUILDKITE_PIPELINE_SLUG}:${BUILDKITE_BUILD_NUMBER} -f Dockerfile .
